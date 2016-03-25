@@ -1,7 +1,48 @@
 <h1><%= @article.title %></h1>
-<p><%= @article.body %></p>
-<%= link_to "<< Back to Articles List", articles_path %>
-<%= link_to "edit", edit_article_path(@article) %>
-<td><%= link_to 'Destroy', articles_destroy_path(@article), 
+<p><%= @article.body %></p><br/>
+<p>
+<%= link_to "<< Back to Articles List", articles_path %> </p>
+<p><%= link_to "edit", edit_article_path(@article) %></p>
+<p><td><%= link_to 'Destroy', articles_destroy_path(@article), 
               method: :delete,
               data: { confirm: 'Are you sure?' } %></td>
+</p>
+<br/>
+<br/>
+
+<h2>Comments</h2>
+<% @article.comments.each do |comment| %>
+  <p>
+    <strong>Commenter:</strong>
+    <%= comment.author_name %>
+  </p>
+ 
+  <p>
+    <strong>Comment:</strong>
+    <%= comment.body %>
+  </p>
+
+<p>
+  <%= button_to 'Destroy Comment', [comment.article, comment],
+               method: :delete,
+               data: { confirm: 'Are you sure?' } %>
+</p>
+
+<% end %>
+<br/>
+<br/>
+
+<h2>Add a comment:</h2>
+<%= form_for([@article, @article.comments.build]) do |f| %>
+  <p>
+    <%= f.label :author_name %><br>
+    <%= f.text_field :author_name %>
+  </p>
+  <p>
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>              
